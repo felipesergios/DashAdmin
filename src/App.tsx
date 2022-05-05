@@ -14,26 +14,17 @@ import AuthScreen from "./components/AuthScreen"
 
 
 import DasboardScreen from "./components/DashboardScreen";
+import RoutesApp from "./routes";
 
-
+let isAuth = true
 
 export default function App(){
   return(
     <ChakraProvider>
-    <Router>
-    <Switch>
-        
-
-        <Route path="/admin">
-          <DasboardScreen/>
-        </Route>
-
-        <Route path="/">
-          <AuthScreen/>
-        </Route>
-
-    </Switch>
-    </Router>
+   
+   {isAuth ? <DasboardScreen>
+     <RoutesApp/>
+   </DasboardScreen> : <AuthScreen />}   
     </ChakraProvider>
     
   )

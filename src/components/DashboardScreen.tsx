@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import {Logo} from '../Logo'
 import {
   Box,
   Flex,
@@ -15,10 +16,15 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Image,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import {useHistory} from 'react-router-dom'
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = ['home', 'Data', 'Stats'];
+
+
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -29,12 +35,17 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    href={'#'}>
+    href={`${children}`}>
     {children}
   </Link>
 );
 
-export default function DasboardScreen() {
+export default function DasboardScreen({ children }: { children: ReactNode }) {
+  let history = useHistory()
+    function handleClick({link}:{link:string}) {
+      history.push(`/${link}`);
+      //alert(link)
+    }
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -49,7 +60,12 @@ export default function DasboardScreen() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
+            <Box><Image
+  borderRadius='full'
+  boxSize='50px'
+  src='https://w7.pngwing.com/pngs/397/510/png-transparent-graphic-design-logo-online-and-offline-business-design-company-text-logo.png'
+  alt='Dan Abramov'
+/></Box>
             <HStack
               as={'nav'}
               spacing={4}
@@ -60,6 +76,7 @@ export default function DasboardScreen() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+            <ColorModeSwitcher marginRight={2}/>
             <Button
               variant={'solid'}
               colorScheme={'teal'}
@@ -78,7 +95,7 @@ export default function DasboardScreen() {
                 <Avatar
                   size={'sm'}
                   src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                    'https://avatars.githubusercontent.com/u/39057272?v=4'
                   }
                 />
               </MenuButton>
@@ -103,7 +120,9 @@ export default function DasboardScreen() {
         ) : null}
       </Box>
 
-      <Box p={4}>Main Content Here</Box>
+      <Box p={4}>
+      {children}
+      </Box>
     </>
   );
 }
